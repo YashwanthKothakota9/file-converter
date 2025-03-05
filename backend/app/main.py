@@ -13,6 +13,7 @@ import subprocess
 import threading
 from dotenv import load_dotenv
 import io
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load environment variables from .env file
 load_dotenv()
@@ -22,6 +23,14 @@ logger = logging.getLogger("uvicorn")
 
 app = FastAPI(title="File Converter API")
 # app.add_middleware(HTTPSRedirectMiddleware)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Initialize S3 client with credentials from .env
 s3_client = boto3.client(
